@@ -1,0 +1,39 @@
+* {
+  --ion-safe-area-left: var(--ion-margin);
+  --ion-safe-area-right: var(--ion-margin);
+  --ion-safe-area-top: var(--ion-margin);
+  --ion-safe-area-bottom: var(--ion-margin);
+}
+
+html {
+  --ion-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--ion-font-family);
+}
+
+a {
+  color: #0051ba;
+}
+
+ion-button{
+  color: cornflowerblue
+}
+
+ion-content {
+  --padding-bottom: 100px;
+  --padding-end: 10px;
+  --padding-start: 10px;
+  --padding-top: 20px;
+}

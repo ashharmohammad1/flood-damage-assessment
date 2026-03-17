@@ -1,0 +1,17 @@
+// Capacitor Config
+{
+  "appId": "com.ceres.flood",
+  "appName": "Flood Damage Assessment",
+  "webDir": "dist/flood-damage-assessment",
+  "server": {
+    "androidScheme": "https"
+  },
+  "plugins": {
+    "Camera": {
+      "permissions": ["camera", "photos"]
+    },
+    "Geolocation": {
+      "permissions": ["geolocation"]
+    }
+  }
+}

@@ -1,0 +1,51 @@
+ion-content {
+  --ion-background-color: #f5f5f5;
+}
+
+ion-card {
+  margin-bottom: 1rem;
+}
+
+.sync-badge {
+  margin-left: 0.5rem;
+}
+
+ion-item {
+  --ion-item-background: transparent;
+}
+
+form {
+  padding-bottom: 1rem;
+}
+
+ion-button {
+
+  --text-color: black;
+  font-weight: 600;
+  font-size: 1rem;
+  min-height: 45px;
+  
+  &[color="primary"] {
+    --background: #3880ff;
+    --background-hover: #3171e0;
+  
+  }
+  
+  &[color="secondary"] {
+    --background: #5260ff;
+    --background-hover: #3c47e6;
+  
+  }
+  
+  &[color="success"] {
+    --background: #2dd36f;
+    --background-hover: #28ba62;
+  
+  }
+  
+  &[color="danger"] {
+    --background: #eb445a;
+    --background-hover: #d33447;
+  
+  }
+}

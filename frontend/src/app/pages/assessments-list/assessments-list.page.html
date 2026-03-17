@@ -1,0 +1,85 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>All Assessments</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">All Assessments</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div class="ion-padding">
+    <ion-card>
+      <ion-card-content>
+        <ion-label>Filter by Condition:</ion-label>
+        <ion-select 
+          [value]="filterCondition" 
+          (ionChange)="onFilterChange($event)"
+          interface="popover">
+          <ion-select-option value="">All</ion-select-option>
+          <ion-select-option value="GOOD">Good</ion-select-option>
+          <ion-select-option value="MODERATE">Moderate</ion-select-option>
+          <ion-select-option value="BAD">Bad</ion-select-option>
+        </ion-select>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-list *ngIf="filteredAssessments.length > 0">
+      <ion-list-header>
+        <ion-label>{{ filteredAssessments.length }} Assessment(s)</ion-label>
+      </ion-list-header>
+      
+      <ion-card *ngFor="let assessment of filteredAssessments" class="assessment-card" (click)="viewAssessment(assessment.id)" class="clickable">
+        <ion-card-header>
+          <ion-card-title>{{ assessment.address }}</ion-card-title>
+          <ion-card-subtitle>
+            <ion-badge [color]="getConditionColor(assessment.conditionStatus)">
+              {{ assessment.conditionStatus }}
+            </ion-badge>
+            <ion-badge [color]="getSyncBadgeColor(assessment.synced)" class="sync-badge">
+              {{ getSyncLabel(assessment.synced) }}
+            </ion-badge>
+          </ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-list lines="none">
+            <ion-item>
+              <ion-icon name="location" slot="start"></ion-icon>
+              <ion-label>
+                <small>{{ assessment.latitude.toFixed(4) }}, {{ assessment.longitude.toFixed(4) }}</small>
+              </ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-icon name="git-branch" slot="start"></ion-icon>
+              <ion-label>
+                <small>{{ assessment.totalChickens }} chickens</small>
+              </ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-icon name="person" slot="start"></ion-icon>
+              <ion-label>
+                <small>{{ assessment.assessor }}</small>
+              </ion-label>
+            </ion-item>
+            <ion-item *ngIf="assessment.photos && assessment.photos.length > 0">
+              <ion-icon name="image" slot="start"></ion-icon>
+              <ion-label>
+                <small>{{ assessment.photos.length }} photo(s)</small>
+              </ion-label>
+            </ion-item>
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
+    </ion-list>
+
+    <ion-text color="medium" *ngIf="filteredAssessments.length === 0">
+      <p class="ion-text-center ion-padding">No assessments found</p>
+    </ion-text>
+  </div>
+</ion-content>

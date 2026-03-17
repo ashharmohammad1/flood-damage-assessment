@@ -1,0 +1,88 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Flood Damage Assessment</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Dashboard</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div class="ion-padding">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Assessment Overview</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list>
+          <ion-item>
+            <ion-icon name="checkmark-done" slot="start"></ion-icon>
+            <ion-label>
+              <h2>Total Assessments</h2>
+              <p>{{ assessmentCount }} records saved locally</p>
+            </ion-label>
+            <ion-badge color="primary" slot="end">{{ assessmentCount }}</ion-badge>
+          </ion-item>
+          <ion-item>
+            <ion-icon name="cloud-upload" slot="start"></ion-icon>
+            <ion-label>
+              <h2>Pending Sync</h2>
+              <p>Waiting to sync to server</p>
+            </ion-label>
+            <ion-badge color="warning" slot="end">{{ unSyncedCount }}</ion-badge>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Quick Actions</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-button 
+          expand="block" 
+          color="primary" 
+          (click)="goToNewAssessment()"
+          class="ion-margin-bottom">
+          <ion-icon name="add-circle" slot="start"></ion-icon>
+          New Assessment
+        </ion-button>
+        <ion-button 
+          expand="block" 
+          color="secondary" 
+          (click)="goToAssessmentsList()"
+          class="ion-margin-bottom">
+          <ion-icon name="list" slot="start"></ion-icon>
+          View All Assessments
+        </ion-button>
+        <ion-button 
+          expand="block" 
+          color="success" 
+          (click)="goToSync()"
+          [disabled]="unSyncedCount === 0 || (syncing$ | async)">
+          <ion-icon name="cloud-upload" slot="start"></ion-icon>
+          Sync Data
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card *ngIf="(syncing$ | async)">
+      <ion-card-header>
+        <ion-card-title>Syncing...</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-progress-bar 
+          type="determinate" 
+          [value]="(syncProgress$ | async)! / 100">
+        </ion-progress-bar>
+        <p class="ion-text-center ion-margin-top">
+          {{ (syncProgress$ | async)! }}% Complete
+        </p>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

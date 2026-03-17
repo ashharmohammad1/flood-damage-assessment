@@ -1,0 +1,131 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Data Synchronization</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Data Sync</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div class="ion-padding">
+    <!-- Connection Status -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Connection Status</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item lines="none">
+          <ion-icon 
+            [name]="(connectionStatus$ | async) ? 'wifi' : 'wifi-off'"
+            [color]="(connectionStatus$ | async) ? 'success' : 'danger'"
+            slot="start">
+          </ion-icon>
+          <ion-label>
+            <h2>{{ (connectionStatus$ | async) ? 'Online' : 'Offline' }}</h2>
+            <p>{{ (connectionStatus$ | async) ? 'Internet connection available' : 'No internet connection' }}</p>
+          </ion-label>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Last Sync -->
+    <ion-card *ngIf="lastSyncTime">
+      <ion-card-header>
+        <ion-card-title>Last Sync</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item lines="none">
+          <ion-icon name="checkmark-circle" color="success" slot="start"></ion-icon>
+          <ion-label>
+            <h2>{{ lastSyncTime | date: 'medium' }}</h2>
+          </ion-label>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Sync Result -->
+    <ion-card *ngIf="syncResult">
+      <ion-card-header>
+        <ion-card-title>
+          {{ syncResult.success ? 'Sync Successful' : 'Sync Completed with Errors' }}
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item lines="none">
+          <ion-label>
+            <h3>Synced: {{ syncResult.synced }}</h3>
+            <p *ngIf="syncResult.failed > 0">Failed: {{ syncResult.failed }}</p>
+          </ion-label>
+        </ion-item>
+        <p *ngIf="syncResult.failedIds.length > 0" color="danger">
+          Failed IDs: {{ syncResult.failedIds.join(', ') }}
+        </p>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Sync Progress -->
+    <ion-card *ngIf="(syncing$ | async)">
+      <ion-card-header>
+        <ion-card-title>Syncing...</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-progress-bar 
+          type="determinate" 
+          [value]="(syncProgress$ | async)! / 100"
+          color="primary">
+        </ion-progress-bar>
+        <p class="ion-text-center ion-margin-top">
+          {{ (syncProgress$ | async)! }}% Complete
+        </p>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Sync Instructions -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>How to Sync</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ol>
+          <li>Ensure you have a stable internet connection</li>
+          <li>Click the "Start Sync" button below</li>
+          <li>Wait for the sync process to complete</li>
+          <li>A confirmation message will appear when done</li>
+        </ol>
+        <ion-text color="medium">
+          <p>
+            <ion-icon name="information-circle"></ion-icon>
+            All changes made offline will be uploaded to the server when you sync.
+          </p>
+        </ion-text>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Sync Button -->
+    <ion-button 
+      expand="block"
+      color="success"
+      size="large"
+      (click)="performSync()"
+      [disabled]="!(connectionStatus$ | async) || (syncing$ | async)"
+      class="ion-margin-top">
+      <ion-icon name="cloud-upload" slot="start"></ion-icon>
+      Start Sync
+    </ion-button>
+
+    <ion-button 
+      expand="block"
+      color="primary"
+      (click)="goHome()">
+      <ion-icon name="home" slot="start"></ion-icon>
+      Back to Home
+    </ion-button>
+  </div>
+</ion-content>
